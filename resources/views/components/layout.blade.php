@@ -21,6 +21,7 @@
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline space-x-4">
                                     <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
+                                    <x-nav-link href="{{ route('runner') }}" :active="request()->is('games/runner')">Runner</x-nav-link>
                                 </div>
                             </div>
                         </div>
