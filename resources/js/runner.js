@@ -19,7 +19,6 @@ if (runnerContainer) {
             obstacle.style.animation = "none";
             obstacle.style.display = "none";
             chicken.style.animation = "none";
-            prompt.querySelector("b").textContent = counter;
             prompt.classList.remove("hidden");
             prompt.classList.add("flex");
             once = false;
@@ -40,10 +39,11 @@ if (runnerContainer) {
 function jump() {
     if (chicken.classList != "animate") {
         chicken.classList.add("animate");
+        counter++;
+        document.querySelector(".score b").textContent = counter;
     }
 
     setTimeout(function () {
         chicken.classList.remove("animate");
-        counter++;
     }, 500);
 }
