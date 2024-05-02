@@ -1,11 +1,41 @@
-const chicken = document.getElementById("chicken");
-const obstacle = document.getElementById("obstacle");
 const runnerContainer = document.querySelector(".runner-container");
 let counter = 0;
 
-runnerContainer.addEventListener("click", () => {
-    jump();
-});
+if (runnerContainer) {
+    const chicken = document.getElementById("chicken");
+    const obstacle = document.getElementById("obstacle");
+    const prompt = document.getElementById("prompt");
+    const restart = document.querySelector(".restart");
+    let once = true;
+
+    let lose = setInterval(function () {
+        let chickenTop = parseInt(
+            window.getComputedStyle(chicken).getPropertyValue("top")
+        );
+        let blockLeft = parseInt(
+            window.getComputedStyle(obstacle).getPropertyValue("left")
+        );
+        if (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330 && once) {
+            obstacle.style.animation = "none";
+            obstacle.style.display = "none";
+            chicken.style.animation = "none";
+            prompt.querySelector("b").textContent = counter;
+            prompt.classList.remove("hidden");
+            prompt.classList.add("flex");
+            once = false;
+        }
+    }, 10);
+
+    window.addEventListener("keydown", (e) => {
+        if (e.key === " ") {
+            jump();
+        }
+    });
+
+    restart.addEventListener("click", () => {
+        location.reload();
+    });
+}
 
 function jump() {
     if (chicken.classList != "animate") {
@@ -17,20 +47,3 @@ function jump() {
         counter++;
     }, 500);
 }
-
-let lose = setInterval(function () {
-    let chickenTop = parseInt(
-        window.getComputedStyle(chicken).getPropertyValue("top")
-    );
-
-    let blockLeft = parseInt(
-        window.getComputedStyle(obstacle).getPropertyValue("left")
-    );
-
-    if (blockLeft < 20 && blockLeft > 0 && chickenTop >= 130) {
-        obstacle.style.animation = "none";
-        obstacle.style.display = "none";
-        alert("Score: " + counter);
-        counter = 0;
-    }
-}, 10);

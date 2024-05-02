@@ -1,23 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 .runner-container {
     margin: 0;
     padding: 0;
     background: #111;
+    width: 1200px;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    font-family: "Press Start 2P";
 }
 
 #game {
-    width: 700px;
-    height: 250px;
+    width: 1200px;
+    height: 450px;
     background: navy;
     position: absolute;
-    top: 50px;
 }
 
 #chicken {
     width: 60px;
     height: 60px;
     position: relative;
-    top: 190px;
+    top: 390px;
     left: 100px;
+}
+#chicken:not(.animate) {
+    animation: walk 1s infinite linear;
+}
+@keyframes walk {
+    0% {
+        transform: rotate(0);
+    }
+    33% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(0);
+    }
+    66% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
 }
 
 .animate {
@@ -25,49 +51,56 @@
 }
 @keyframes jump {
     0% {
-        top: 150px;
+        top: 390px;
+    }
+    15% {
+        top: 300px;
     }
     30% {
-        top: 100px;
+        top: 280px;
+    }
+    50% {
+        top: 250px;
     }
     70% {
-        top: 100px;
+        top: 280px;
+    }
+    85% {
+        top: 300px;
     }
     100% {
-        top: 150px;
+        top: 390px;
     }
 }
 
 #obstacle {
     width: 50px;
     height: 50px;
-    background: green;
     position: relative;
-    top: 150px;
+    top: 340px;
     left: 100%;
-    animation: block 1.3s infinite linear;
+    animation: block 2.5s infinite linear;
 }
 @keyframes block {
     0% {
-        left: 680px;
+        left: 1250px;
     }
     100% {
-        left: -680px;
+        left: -55px;
     }
 }
 
 #ground {
-    width: 700px;
+    width: 1200px;
     height: 50px;
-    background: brown;
     position: absolute;
-    top: 300px;
+    top: 450px;
 }
 
 .sky {
     position: absolute;
-    width: 700px;
-    height: 250px;
+    width: 1200px;
+    height: 450px;
     opacity: 0.6;
 }
 
@@ -82,6 +115,60 @@
 }
 
 .ground {
-    width: 700px;
+    width: 1200px;
     height: 50px;
+}
+
+.info {
+    color: #fff;
+    position: absolute;
+    top: 20px;
+    z-index: 1;
+    right: 30px;
+    font-size: 25px;
+    animation: flicker 0.8s infinite linear;
+}
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+#prompt {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 300px;
+    height: 150px;
+    background: aliceblue;
+    border: 5px solid cornflowerblue;
+    color: #333;
+    transform: translate(-50%, -50%);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.restart {
+    margin-top: 20px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    height: 2rem;
+    font-size: 1.19rem;
+    background: #333;
+    border: 6px solid #333;
+    border-radius: 10px;
+    color: aliceblue;
+    cursor: pointer;
 }
