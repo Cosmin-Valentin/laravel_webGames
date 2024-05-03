@@ -1,5 +1,6 @@
 const runnerContainer = document.querySelector(".runner-container");
 let counter = 0;
+let fail = false;
 
 if (runnerContainer) {
     const chicken = document.getElementById("chicken");
@@ -7,7 +8,6 @@ if (runnerContainer) {
     const prompt = document.getElementById("prompt");
     const ground = document.getElementById("ground");
     const restart = document.querySelector(".restart");
-    let once = true;
 
     let lose = setInterval(function () {
         let chickenTop = parseInt(
@@ -16,15 +16,16 @@ if (runnerContainer) {
         let blockLeft = parseInt(
             window.getComputedStyle(obstacle).getPropertyValue("left")
         );
-        if (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330 && once) {
+        if (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330) {
             obstacle.style.animation = "none";
             obstacle.style.display = "none";
+            chicken.style.transform = "rotate(0deg)";
             chicken.querySelector(".leg").style.animation = "none";
             ground.querySelector(".pixels").style.animation = "none";
             ground.querySelector(".pixels2").style.animation = "none";
             prompt.classList.remove("hidden");
             prompt.classList.add("flex");
-            once = false;
+            fail = true;
         }
     }, 10);
 
@@ -42,11 +43,16 @@ if (runnerContainer) {
 function jump() {
     if (chicken.classList != "animate") {
         chicken.classList.add("animate");
-        counter++;
-        document.querySelector(".score b").textContent = counter;
     }
 
     setTimeout(function () {
         chicken.classList.remove("animate");
+        let blockLeft = parseInt(
+            window.getComputedStyle(obstacle).getPropertyValue("left")
+        );
+        if (blockLeft < 300 && !fail) {
+            counter++;
+            document.querySelector(".score b").textContent = counter;
+        }
     }, 500);
 }
