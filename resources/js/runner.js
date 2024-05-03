@@ -8,8 +8,10 @@ if (runnerContainer) {
     const prompt = document.getElementById("prompt");
     const ground = document.getElementById("ground");
     const restart = document.querySelector(".restart");
+    const skies = document.querySelectorAll(".sky");
+    let x = 1;
 
-    let lose = setInterval(function () {
+    const lose = setInterval(function () {
         let chickenTop = parseInt(
             window.getComputedStyle(chicken).getPropertyValue("top")
         );
@@ -26,8 +28,17 @@ if (runnerContainer) {
             prompt.classList.remove("hidden");
             prompt.classList.add("flex");
             fail = true;
+            clearInterval(circadian);
         }
     }, 10);
+
+    const circadian = setInterval(function () {
+        skies.forEach((sky) => {
+            sky.classList.add("hidden");
+        });
+        skies[x].classList.remove("hidden");
+        x < 2 ? x++ : (x = 0);
+    }, 15000);
 
     window.addEventListener("keydown", (e) => {
         if (e.key === " ") {
