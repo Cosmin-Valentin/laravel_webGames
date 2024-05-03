@@ -5,6 +5,7 @@ if (runnerContainer) {
     const chicken = document.getElementById("chicken");
     const obstacle = document.getElementById("obstacle");
     const prompt = document.getElementById("prompt");
+    const ground = document.getElementById("ground");
     const restart = document.querySelector(".restart");
     let once = true;
 
@@ -18,7 +19,9 @@ if (runnerContainer) {
         if (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330 && once) {
             obstacle.style.animation = "none";
             obstacle.style.display = "none";
-            chicken.style.animation = "none";
+            chicken.querySelector(".leg").style.animation = "none";
+            ground.querySelector(".pixels").style.animation = "none";
+            ground.querySelector(".pixels2").style.animation = "none";
             prompt.classList.remove("hidden");
             prompt.classList.add("flex");
             once = false;

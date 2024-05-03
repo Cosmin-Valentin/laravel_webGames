@@ -13,13 +13,28 @@
             <img class='sky' src="{{ asset('images/sky.jpg') }}" alt="pixel sky">
             <div id="chicken">
                 <img class="chicken" src="{{ asset('images/chicken.png') }}" alt="chicken">
+                <img class="leg" src="{{ asset('images/leg.png') }}" alt="chicken leg">
             </div>
             <div id="obstacle">
-                <img class="heystack" src="{{ asset('images/haystack.png') }}" alt="heystack">
+                <img class="fox" src="{{ asset('images/fox.png') }}" alt="fox">
             </div>
         </div>
         <div id="ground">
             <img class='ground' src="{{ asset('images/ground.png') }}" alt="ground">
+            <div class="pixels">
+                <div class="pix1"></div>
+                <div class="pix2"></div>
+                <div class="pix3"></div>
+                <div class="pix4"></div>
+                <div class="pix5"></div>
+            </div>
+            <div class="pixels2">
+                <div class="pix1"></div>
+                <div class="pix2"></div>
+                <div class="pix3"></div>
+                <div class="pix4"></div>
+                <div class="pix5"></div>
+            </div>
         </div>
         <div id="prompt" class="hidden">
             <button class="restart">Play Again?</button>
