@@ -35,10 +35,11 @@
     transform-origin: top;
 }
 
-#chicken:not(.animate) {
+#chicken.walk {
     transform: rotate(-12deg);
 }
-#chicken:not(.animate) .leg {
+
+#chicken.walk .leg {
     animation: walk 1s infinite linear;
 }
 @keyframes walk {
@@ -50,7 +51,7 @@
     }
 }
 
-.animate {
+.jump {
     animation: jump 0.5s linear 0s;
 }
 @keyframes jump {
@@ -77,12 +78,42 @@
     }
 }
 
+.crouch {
+    animation: crouch 0.5s linear 0s;
+}
+@keyframes crouch {
+    0% {
+        top: 392px;
+    }
+    15% {
+        top: 397px;
+    }
+    30% {
+        top: 402px;
+    }
+    50% {
+        top: 407px;
+    }
+    70% {
+        top: 402px;
+    }
+    85% {
+        top: 397px;
+    }
+    100% {
+        top: 392px;
+    }
+}
+
 #obstacle {
     width: 60px;
     height: 50px;
     position: relative;
     top: 340px;
     left: 100%;
+}
+
+.move #obstacle {
     animation: block 2.5s infinite linear;
 }
 @keyframes block {
@@ -126,10 +157,12 @@
 .info {
     color: #fff;
     position: absolute;
-    top: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1;
-    right: 30px;
     font-size: 25px;
+    text-align: center;
     animation: flicker 0.8s infinite linear;
 }
 @keyframes flicker {
@@ -181,13 +214,19 @@
     cursor: pointer;
 }
 
-.pixels,
-.pixels2 {
+.pixels {
     width: 1000px;
     height: 50px;
     position: relative;
 }
-.pixels {
+
+.pixels > div {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+}
+
+.move .group-1 {
     bottom: 50px;
     animation: moveGround 4.5s infinite linear;
 }
@@ -200,7 +239,7 @@
     }
 }
 
-.pixels2 {
+.move .group-2 {
     bottom: 100px;
     animation: moveGround2 6.4s infinite linear;
 }
@@ -213,17 +252,10 @@
     }
 }
 
-.pixels > div,
-.pixels2 > div {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-}
-
-.pixels > div {
+.group-1 > div {
     background: #338c23;
 }
-.pixels2 > div {
+.group-2 > div {
     background: #255444;
 }
 

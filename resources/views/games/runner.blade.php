@@ -8,7 +8,7 @@
             <span class="title">Score: </span>
             <b>0</b>
         </div>
-        <p class="info">Press SPACE to jump</p>
+        <p class="info">Press KEY UP or KEY DOWN to start</p>
         <div id="game">
             <img class='sky' src="{{ asset('images/sky.jpg') }}" alt="pixel sky" style="opacity:1">
             <img class='sky hidden' src="{{ asset('images/sky2.jpg') }}" alt="pixel sky2">
@@ -23,14 +23,14 @@
         </div>
         <div id="ground">
             <img class='ground' src="{{ asset('images/ground.png') }}" alt="ground">
-            <div class="pixels">
+            <div class="pixels group-1">
                 <div class="pix1"></div>
                 <div class="pix2"></div>
                 <div class="pix3"></div>
                 <div class="pix4"></div>
                 <div class="pix5"></div>
             </div>
-            <div class="pixels2">
+            <div class="pixels group-2">
                 <div class="pix1"></div>
                 <div class="pix2"></div>
                 <div class="pix3"></div>
