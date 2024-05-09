@@ -3,6 +3,7 @@ const runnerContainer = document.querySelector(".runner-container");
 if (runnerContainer) {
     const chicken = document.getElementById("chicken");
     const obstacle = document.getElementById("obstacle");
+    const eagle = document.getElementById("eagle");
     const prompt = document.getElementById("prompt");
     const restart = document.querySelector(".restart");
     const skies = document.querySelectorAll(".sky");
@@ -25,20 +26,26 @@ if (runnerContainer) {
 
     function setupLoseCheck() {
         return setInterval(() => {
-            if (checkCollision(chicken, obstacle)) {
+            if (checkCollision()) {
                 gameOver();
             }
         }, 10);
     }
 
-    function checkCollision(chicken, obstacle) {
+    function checkCollision() {
         let chickenTop = parseInt(
             window.getComputedStyle(chicken).getPropertyValue("top")
         );
         let blockLeft = parseInt(
             window.getComputedStyle(obstacle).getPropertyValue("left")
         );
-        return blockLeft < 160 && blockLeft > 50 && chickenTop >= 330;
+        let eagleLeft = parseInt(
+            window.getComputedStyle(eagle).getPropertyValue("left")
+        );
+        return (
+            (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330) ||
+            (eagleLeft < 160 && eagleLeft > 50 && chickenTop < 397)
+        );
     }
 
     function gameOver() {
@@ -96,9 +103,18 @@ if (runnerContainer) {
         let blockLeft = parseInt(
             window.getComputedStyle(obstacle).getPropertyValue("left")
         );
+        let eagleLeft = parseInt(
+            window.getComputedStyle(eagle).getPropertyValue("left")
+        );
         if (blockLeft < 300 && !fail) {
             counter++;
+            if (eagle.classList.contains("fly") && eagleLeft < 300) {
+                counter++;
+            }
             document.querySelector(".score b").textContent = counter;
+            if (counter >= 15 && !eagle.classList.contains("fly")) {
+                eagle.classList.add("fly");
+            }
         }
     }
 

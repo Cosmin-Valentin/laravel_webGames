@@ -79,7 +79,7 @@
 }
 
 .crouch {
-    animation: crouch 0.5s linear 0s;
+    animation: crouch 0.8s ease-out 0s;
 }
 @keyframes crouch {
     0% {
@@ -125,6 +125,18 @@
     }
 }
 
+#eagle {
+    width: 150px;
+    height: 110px;
+    position: relative;
+    top: 175px;
+    left: 100%;
+}
+
+.move #eagle.fly {
+    animation: moveGround2 6.4s infinite linear;
+}
+
 #ground {
     width: 1200px;
     height: 50px;
@@ -147,6 +159,11 @@
 .fox {
     width: 60px;
     height: 50px;
+}
+
+.eagle {
+    width: 150px;
+    height: 150px;
 }
 
 .ground {

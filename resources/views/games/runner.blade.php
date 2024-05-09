@@ -20,6 +20,9 @@
             <div id="obstacle">
                 <img class="fox" src="{{ asset('images/fox.png') }}" alt="fox">
             </div>
+            <div id="eagle">
+                <img class="eagle" src="{{ asset('images/eagle.png') }}" alt="eagle">
+            </div>
         </div>
         <div id="ground">
             <img class='ground' src="{{ asset('images/ground.png') }}" alt="ground">
