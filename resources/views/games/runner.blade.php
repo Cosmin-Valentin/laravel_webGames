@@ -10,9 +10,9 @@
         </div>
         <p class="info">Press KEY UP or KEY DOWN to start</p>
         <div id="game">
-            <img class='sky' src="{{ asset('images/sky.jpg') }}" alt="pixel sky" style="opacity:1">
-            <img class='sky hidden' src="{{ asset('images/sky2.jpg') }}" alt="pixel sky2">
-            <img class='sky hidden' src="{{ asset('images/sky3.jpg') }}" alt="pixel sk3">
+            <img class='sky active' src="{{ asset('images/sky.jpg') }}" alt="pixel sky" style="opacity:1">
+            <img class='sky' src="{{ asset('images/sky2.jpg') }}" alt="pixel sky2">
+            <img class='sky' src="{{ asset('images/sky3.jpg') }}" alt="pixel sk3">
             <div id="chicken">
                 <img class="chicken" src="{{ asset('images/chicken.png') }}" alt="chicken">
                 <img class="leg right" src="{{ asset('images/leg.png') }}" alt="chicken leg">

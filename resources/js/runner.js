@@ -10,7 +10,6 @@ if (runnerContainer) {
 
     let counter = 0;
     let fail = false;
-    let x = 1;
     let loseInterval;
     let circadianInterval;
 
@@ -44,7 +43,7 @@ if (runnerContainer) {
         );
         return (
             (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330) ||
-            (eagleLeft < 160 && eagleLeft > 50 && chickenTop < 397)
+            (eagleLeft < 130 && eagleLeft > 50 && chickenTop < 397)
         );
     }
 
@@ -66,10 +65,11 @@ if (runnerContainer) {
     }
 
     function setupCircadianShift() {
+        let x = 1;
         return setInterval(() => {
-            skies.forEach((sky) => sky.classList.add("hidden"));
-            skies[x].classList.remove("hidden");
-            x = x < 2 ? x + 1 : 0;
+            skies.forEach((sky) => sky.classList.remove("active"));
+            skies[x].classList.add("active");
+            x = x < skies.length - 1 ? x + 1 : 0;
         }, 15000);
     }
 
