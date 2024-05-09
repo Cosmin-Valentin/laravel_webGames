@@ -5,7 +5,6 @@ if (runnerContainer) {
     const obstacle = document.getElementById("obstacle");
     const eagle = document.getElementById("eagle");
     const prompt = document.getElementById("prompt");
-    const restart = document.querySelector(".restart");
     const skies = document.querySelectorAll(".sky");
 
     let counter = 0;
@@ -20,7 +19,6 @@ if (runnerContainer) {
         circadianInterval = setupCircadianShift();
 
         document.addEventListener("keydown", handleJump);
-        restart.addEventListener("click", () => location.reload());
     }
 
     function setupLoseCheck() {
@@ -113,7 +111,7 @@ if (runnerContainer) {
                 counter++;
             }
             document.querySelector(".score b").textContent = counter;
-            if (counter >= 5 && !eagle.classList.contains("fly")) {
+            if (counter >= 10 && !eagle.classList.contains("fly")) {
                 eagle.classList.add("fly");
             }
         }

@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot:heading>
         Runner Game
+        @vite(['resources/css/runner.css', 'resources/js/runner.js'])
     </x-slot:heading>
 
     <div class="runner-container">
@@ -43,7 +44,8 @@
             </div>
         </div>
         <div id="prompt" class="hidden">
-            <button class="restart">Play Again?</button>
+            <span class="restart">Play Again?</span>
+            <p>Press any button to continue</p>
         </div>
     </div>
 </x-layout>
