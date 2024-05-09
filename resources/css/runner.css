@@ -107,9 +107,9 @@
 
 #obstacle {
     width: 60px;
-    height: 50px;
+    height: 60px;
     position: relative;
-    top: 340px;
+    top: 333px;
     left: 100%;
 }
 
@@ -156,9 +156,9 @@
     height: 60px;
 }
 
-.fox {
+.cactus {
     width: 60px;
-    height: 50px;
+    height: 60px;
 }
 
 .eagle {

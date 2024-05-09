@@ -18,7 +18,7 @@
                 <img class="leg" src="{{ asset('images/leg.png') }}" alt="chicken leg">
             </div>
             <div id="obstacle">
-                <img class="fox" src="{{ asset('images/fox.png') }}" alt="fox">
+                <img class="cactus" src="{{ asset('images/cactus.png') }}" alt="cactus">
             </div>
             <div id="eagle">
                 <img class="eagle" src="{{ asset('images/eagle.png') }}" alt="eagle">

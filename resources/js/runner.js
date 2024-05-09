@@ -62,6 +62,7 @@ if (runnerContainer) {
         clearInterval(loseInterval);
         clearInterval(circadianInterval);
         document.removeEventListener("keydown", handleJump);
+        document.addEventListener("keydown", () => location.reload());
     }
 
     function setupCircadianShift() {
@@ -89,12 +90,12 @@ if (runnerContainer) {
                 chicken.classList.remove("walk");
             }
             chicken.classList.add(actionName);
+            checkScoreIncrement();
             setTimeout(() => {
                 chicken.classList.remove(actionName);
                 if (!fail) {
                     chicken.classList.add("walk");
                 }
-                checkScoreIncrement();
             }, 500);
         }
     }
@@ -112,7 +113,7 @@ if (runnerContainer) {
                 counter++;
             }
             document.querySelector(".score b").textContent = counter;
-            if (counter >= 15 && !eagle.classList.contains("fly")) {
+            if (counter >= 4 && !eagle.classList.contains("fly")) {
                 eagle.classList.add("fly");
             }
         }
