@@ -7,6 +7,8 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/js/app.js",
+                "resources/css/chicken-runner.css",
+                "resources/js/chicken-runner.js",
                 "resources/css/runner.css",
                 "resources/js/runner.js",
             ],

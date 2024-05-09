@@ -1,73 +1,35 @@
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-
 .runner-container {
     margin: 0;
     padding: 0;
-    background: #111;
-    width: 1200px;
+    width: 1000px;
     height: 500px;
     position: relative;
     overflow: hidden;
-    font-family: "Press Start 2P";
+    background: black;
 }
 
 #game {
-    width: 1200px;
-    height: 450px;
-    background: navy;
     position: absolute;
+    width: 1000px;
+    height: 450px;
+    background: gray;
+}
+
+#ground {
+    position: absolute;
+    width: 1000px;
+    height: 50px;
+    top: 450px;
+    background: green;
 }
 
 #chicken {
     width: 60px;
     height: 60px;
     position: relative;
-    top: 392px;
+    top: 390px;
     left: 100px;
-}
-
-.leg {
-    position: relative;
-    width: 17px;
-    height: 17px;
-    transform-origin: top;
-}
-
-.leg.right {
-    bottom: 16px;
-    left: 16px;
-}
-
-.leg.left {
-    bottom: 33px;
-    left: 22px;
-}
-
-#chicken.walk {
-    transform: rotate(-12deg);
-}
-
-#chicken.walk .leg.right {
-    animation: walkRight 0.5s infinite linear;
-}
-#chicken.walk .leg.left {
-    animation: walkLeft 0.5s infinite linear;
-}
-@keyframes walkRight {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(50deg);
-    }
-}
-@keyframes walkLeft {
-    0% {
-        transform: rotate(-50deg);
-    }
-    100% {
-        transform: rotate(0);
-    }
+    background: yellow;
 }
 
 .jump {
@@ -81,13 +43,13 @@
         top: 300px;
     }
     30% {
-        top: 280px;
+        top: 240px;
     }
     50% {
-        top: 250px;
+        top: 200px;
     }
     70% {
-        top: 280px;
+        top: 240px;
     }
     85% {
         top: 300px;
@@ -97,236 +59,18 @@
     }
 }
 
-.crouch {
-    animation: crouch 0.8s ease-out 0s;
-}
-@keyframes crouch {
-    0% {
-        top: 392px;
-    }
-    15% {
-        top: 397px;
-    }
-    30% {
-        top: 402px;
-    }
-    50% {
-        top: 407px;
-    }
-    70% {
-        top: 402px;
-    }
-    85% {
-        top: 397px;
-    }
-    100% {
-        top: 392px;
-    }
-}
-
-#obstacle {
+#obstacle1 {
     width: 60px;
     height: 60px;
     position: relative;
-    top: 333px;
-    left: 100%;
+    top: 330px;
+    background: red;
 }
 
-.move #obstacle {
-    animation: block 2.5s infinite linear;
-}
-@keyframes block {
-    0% {
-        left: 1250px;
-    }
-    100% {
-        left: -55px;
-    }
-}
-
-#eagle {
-    width: 150px;
-    height: 110px;
-    position: relative;
-    top: 175px;
-    left: 100%;
-}
-
-.move #eagle.fly {
-    animation: fly 5s infinite linear;
-}
-@keyframes fly {
-    0% {
-        left: 2700px;
-    }
-    100% {
-        left: -100px;
-    }
-}
-
-#ground {
-    width: 1200px;
-    height: 50px;
-    position: absolute;
-    top: 450px;
-}
-
-.sky {
-    position: absolute;
-    width: 1200px;
-    height: 450px;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
-
-.sky.active {
-    opacity: 1;
-}
-
-.chicken {
+#obstacle2 {
     width: 60px;
     height: 60px;
-}
-
-.cactus {
-    width: 60px;
-    height: 60px;
-}
-
-.eagle {
-    width: 150px;
-    height: 150px;
-}
-
-.ground {
-    width: 1200px;
-    height: 50px;
-}
-
-.info {
-    color: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    font-size: 25px;
-    text-align: center;
-    animation: flicker 0.8s infinite linear;
-}
-
-#prompt {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    width: 300px;
-    height: 150px;
-    background: #333;
-    border: 5px solid #999;
-    color: #fff;
-    transform: translate(-50%, -50%);
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-#prompt p {
-    text-align: center;
-    margin-top: 20px;
-    animation: flicker 0.8s infinite linear;
-}
-
-@keyframes flicker {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.6;
-    }
-}
-
-.score {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    position: absolute;
-    top: 20px;
-    left: 30px;
-    color: aliceblue;
-    z-index: 1;
-}
-
-.restart {
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    height: 2rem;
-    font-size: 1.19rem;
-}
-
-.pixels {
-    width: 1000px;
-    height: 50px;
     position: relative;
-}
-
-.pixels > div {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-}
-
-.move .group-1 {
-    bottom: 50px;
-    animation: moveGround 4.5s infinite linear;
-}
-@keyframes moveGround {
-    0% {
-        left: 1200px;
-    }
-    100% {
-        left: -1200px;
-    }
-}
-
-.move .group-2 {
-    bottom: 100px;
-    animation: moveGround2 6.4s infinite linear;
-}
-@keyframes moveGround2 {
-    0% {
-        left: 2200px;
-    }
-    100% {
-        left: -1200px;
-    }
-}
-
-.group-1 > div {
-    background: #338c23;
-}
-.group-2 > div {
-    background: #255444;
-}
-
-.pix1 {
-    top: 20px;
-    left: 100px;
-}
-.pix2 {
-    top: 10px;
-    left: 200px;
-}
-.pix3 {
-    top: 30px;
-    left: 400px;
-}
-.pix4 {
-    top: 40px;
-    left: 600px;
-}
-.pix5 {
-    top: 25px;
-    left: 800px;
+    top: 270px;
+    background: pink;
 }

@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:heading>
-        Runner Game
-        @vite(['resources/css/runner.css', 'resources/js/runner.js'])
+        Chicken Runner
+        @vite(['resources/css/chicken-runner.css', 'resources/js/chicken-runner.js'])
     </x-slot:heading>
 
     <div class="runner-container">

@@ -15,4 +15,5 @@ Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store'])->name('login');
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 
-Route::get('/games/runner', [GameController::class, 'show'])->name('runner');
+Route::get('/games/runner', [GameController::class, 'showRunner'])->name('runner');
+Route::get('/games/runner2', [GameController::class, 'showRunner2'])->name('runner2');

@@ -2,139 +2,94 @@ const runnerContainer = document.querySelector(".runner-container");
 
 if (runnerContainer) {
     const chicken = document.getElementById("chicken");
-    const obstacle = document.getElementById("obstacle");
-    const eagle = document.getElementById("eagle");
-    const prompt = document.getElementById("prompt");
-    const skies = document.querySelectorAll(".sky");
+    document.addEventListener("keydown", handleJump);
 
-    let counter = 0;
-    let fail = false;
-    let loseInterval;
-    let circadianInterval;
+    const obstacle1 = document.getElementById("obstacle1");
+    const obstacle2 = document.getElementById("obstacle2");
 
-    giveInfo();
+    let countTransitions = 0; // Count transitions of obstacle1
+    let transitionsForObstacle2 = getRandomTransitionCount(); // Random number of transitions before obstacle2 appears
+    let obstacle2Active = false; // State to track if obstacle2 should be moving
 
-    function init() {
-        loseInterval = setupLoseCheck();
-        circadianInterval = setupCircadianShift();
+    function moveObstacle(obstacle, speed) {
+        const sandboxWidth = runnerContainer.offsetWidth;
+        let x = sandboxWidth; // Initial position off-screen
 
-        document.addEventListener("keydown", handleJump);
-    }
-
-    function setupLoseCheck() {
-        return setInterval(() => {
-            if (checkCollision()) {
-                gameOver();
+        function animate() {
+            if (
+                obstacle === obstacle1 ||
+                (obstacle === obstacle2 && obstacle2Active)
+            ) {
+                x -= speed;
             }
-        }, 10);
+
+            if (x < -obstacle.offsetWidth) {
+                x = sandboxWidth; // Reset position
+                if (obstacle === obstacle1) {
+                    countTransitions++;
+                    if (
+                        countTransitions >= transitionsForObstacle2 &&
+                        !obstacle2Active
+                    ) {
+                        obstacle2Active = true;
+                        setTimeout(() => {
+                            moveObstacle(obstacle2, 3); // Delayed start for obstacle2
+                        }, Math.random() * 6000); // Random delay in ms (0 to 6 seconds)
+                    }
+                } else if (obstacle === obstacle2) {
+                    obstacle2.style.display = "none"; // Hide obstacle2 after one transition
+                    obstacle2Active = false; // Deactivate obstacle2
+                    transitionsForObstacle2 = getRandomTransitionCount(); // Recalculate random transitions for next appearance
+                    countTransitions = 0; // Reset transition count
+                }
+            }
+
+            if (obstacle === obstacle2 && obstacle2Active) {
+                obstacle.style.display = "block"; // Ensure obstacle2 is visible when active
+                obstacle.style.transform = `translateX(${x}px)`;
+            } else if (obstacle === obstacle1) {
+                obstacle.style.transform = `translateX(${x}px)`;
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
     }
 
-    function checkCollision() {
+    function getRandomTransitionCount() {
+        return 0 + Math.floor(Math.random() * 6); // Random number from 5 to 10
+    }
+
+    // Start moving obstacle1
+    moveObstacle(obstacle1, 3);
+
+    // if (!checkCollision(x)) {
+    //     requestAnimationFrame(animate);
+    // } else {
+    //     console.error("game over");
+    // }
+
+    function checkCollision(obstacleLeft) {
         let chickenTop = parseInt(
             window.getComputedStyle(chicken).getPropertyValue("top")
         );
-        let blockLeft = parseInt(
-            window.getComputedStyle(obstacle).getPropertyValue("left")
-        );
-        let eagleLeft = parseInt(
-            window.getComputedStyle(eagle).getPropertyValue("left")
-        );
-        return (
-            (blockLeft < 160 && blockLeft > 50 && chickenTop >= 330) ||
-            (eagleLeft < 130 && eagleLeft > 50 && chickenTop < 397)
-        );
-    }
 
-    function gameOver() {
-        if (runnerContainer.classList.contains("move")) {
-            runnerContainer.classList.remove("move");
-            obstacle.classList.add("hidden");
-        }
-        if (chicken.classList.contains("walk")) {
-            chicken.classList.remove("walk");
-        }
-        prompt.classList.remove("hidden");
-        prompt.classList.add("flex");
-        fail = true;
-        clearInterval(loseInterval);
-        clearInterval(circadianInterval);
-        document.removeEventListener("keydown", handleJump);
-        document.addEventListener("keydown", () => location.reload());
-    }
-
-    function setupCircadianShift() {
-        let x = 1;
-        return setInterval(() => {
-            skies.forEach((sky) => sky.classList.remove("active"));
-            skies[x].classList.add("active");
-            x = x < skies.length - 1 ? x + 1 : 0;
-        }, 15000);
+        return obstacleLeft < 160 && obstacleLeft > 50 && chickenTop >= 330;
     }
 
     function handleJump(e) {
-        const actions = {
-            ArrowUp: () => performAction("jump"),
-            ArrowDown: () => performAction("crouch"),
-        };
-
-        if (actions[e.key]) {
-            actions[e.key]();
-        }
-    }
-
-    function performAction(actionName) {
-        if (!chicken.classList.contains(actionName)) {
-            if (chicken.classList.contains("walk")) {
-                chicken.classList.remove("walk");
+        if (e.key === "ArrowUp") {
+            if (!chicken.classList.contains("jump")) {
+                chicken.classList.add("jump");
             }
-            chicken.classList.add(actionName);
-            checkScoreIncrement();
-            setTimeout(() => {
-                chicken.classList.remove(actionName);
-                if (!fail) {
-                    chicken.classList.add("walk");
-                }
+            setTimeout(function () {
+                chicken.classList.remove("jump");
             }, 500);
         }
     }
 
-    function checkScoreIncrement() {
-        let blockLeft = parseInt(
-            window.getComputedStyle(obstacle).getPropertyValue("left")
-        );
-        let eagleLeft = parseInt(
-            window.getComputedStyle(eagle).getPropertyValue("left")
-        );
-        if (blockLeft < 300 && !fail) {
-            counter++;
-            if (eagle.classList.contains("fly") && eagleLeft < 300) {
-                counter++;
-            }
-            document.querySelector(".score b").textContent = counter;
-            if (counter >= 10 && !eagle.classList.contains("fly")) {
-                eagle.classList.add("fly");
-            }
-        }
-    }
-
-    function startGame(e) {
-        const actionMap = {
-            ArrowUp: "jump",
-            ArrowDown: "crouch",
-        };
-
-        if (actionMap[e.key]) {
-            performAction(actionMap[e.key]);
-            init();
-            document.removeEventListener("keydown", startGame);
-            document.querySelector(".info").classList.add("hidden");
-            if (!runnerContainer.classList.contains("move")) {
-                runnerContainer.classList.add("move");
-            }
-        }
-    }
-
-    function giveInfo() {
-        document.addEventListener("keydown", startGame);
+    function randomDelay() {
+        return Math.random * 10000;
     }
 }
