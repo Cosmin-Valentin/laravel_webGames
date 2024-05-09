@@ -113,7 +113,7 @@ if (runnerContainer) {
                 counter++;
             }
             document.querySelector(".score b").textContent = counter;
-            if (counter >= 4 && !eagle.classList.contains("fly")) {
+            if (counter >= 5 && !eagle.classList.contains("fly")) {
                 eagle.classList.add("fly");
             }
         }

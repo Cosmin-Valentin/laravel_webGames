@@ -30,24 +30,43 @@
     position: relative;
     width: 17px;
     height: 17px;
-    bottom: 17px;
-    left: 19px;
     transform-origin: top;
+}
+
+.leg.right {
+    bottom: 16px;
+    left: 16px;
+}
+
+.leg.left {
+    bottom: 33px;
+    left: 22px;
 }
 
 #chicken.walk {
     transform: rotate(-12deg);
 }
 
-#chicken.walk .leg {
-    animation: walk 1s infinite linear;
+#chicken.walk .leg.right {
+    animation: walkRight 0.5s infinite linear;
 }
-@keyframes walk {
+#chicken.walk .leg.left {
+    animation: walkLeft 0.5s infinite linear;
+}
+@keyframes walkRight {
     0% {
         transform: rotate(0);
     }
     100% {
         transform: rotate(50deg);
+    }
+}
+@keyframes walkLeft {
+    0% {
+        transform: rotate(-50deg);
+    }
+    100% {
+        transform: rotate(0);
     }
 }
 
