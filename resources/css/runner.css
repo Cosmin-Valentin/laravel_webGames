@@ -29,7 +29,6 @@
     position: relative;
     top: 390px;
     left: 100px;
-    background: yellow;
 }
 
 .jump {
@@ -64,5 +63,45 @@
     height: 60px;
     position: relative;
     top: 330px;
-    background: red;
+}
+
+.shrink {
+    animation: shrink 0.2s linear;
+}
+@keyframes shrink {
+    0% {
+        top: 330px;
+        width: 60px;
+    }
+    100% {
+        top: 390px;
+        width: 10px;
+    }
+}
+
+.chicken {
+    width: 60px;
+    height: 60px;
+}
+
+.leg {
+    position: relative;
+    width: 17px;
+    height: 17px;
+    transform-origin: top;
+}
+
+.leg.right {
+    bottom: 31px;
+    left: 19px;
+}
+
+.leg.left {
+    bottom: 14px;
+    left: 26px;
+}
+
+.cat {
+    width: 60px;
+    height: 60px;
 }

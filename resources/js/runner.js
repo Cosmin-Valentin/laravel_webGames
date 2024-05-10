@@ -30,8 +30,10 @@ if (runnerContainer) {
 
         function handleCollision() {
             if (hit) {
-                console.log("hit");
-                resetObstacle();
+                obstacle.classList.add("shrink");
+                setTimeout(function () {
+                    resetObstacle();
+                }, 200);
             } else {
                 console.error("game over");
             }
@@ -50,6 +52,7 @@ if (runnerContainer) {
         function resetObstacle() {
             x = sandboxWidth;
             obstacle.style.transform = `translateX(${x}px)`;
+            obstacle.classList.remove("shrink");
             setTimeout(() => {
                 requestAnimationFrame(animate);
             }, getRandomCount(3) * 1000);
