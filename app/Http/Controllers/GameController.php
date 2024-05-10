@@ -9,7 +9,7 @@ class GameController extends Controller
 {
     public function showRunner() {
         if(Auth::guest()) {
-            return redirect()->route('home');
+            return redirect()->route('login');
         }
 
         return view('games.runner');
@@ -17,7 +17,7 @@ class GameController extends Controller
 
     public function showRunner2() {
         if(Auth::guest()) {
-            return redirect()->route('home');
+            return redirect()->route('login');
         }
 
         return view('games.runner2');

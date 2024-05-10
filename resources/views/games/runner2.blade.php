@@ -7,8 +7,7 @@
     <div class="runner-container">
         <div id="game">
             <div id="chicken"></div>
-            <div id="obstacle1"></div>
-            <div id="obstacle2"></div>
+            <div id="obstacle"></div>
         </div>
         <div id="ground"></div>
     </div>

@@ -2,80 +2,82 @@ const runnerContainer = document.querySelector(".runner-container");
 
 if (runnerContainer) {
     const chicken = document.getElementById("chicken");
+    const obstacle = document.getElementById("obstacle");
+    let hit = false;
+
     document.addEventListener("keydown", handleJump);
-
-    const obstacle1 = document.getElementById("obstacle1");
-    const obstacle2 = document.getElementById("obstacle2");
-
-    let countTransitions = 0; // Count transitions of obstacle1
-    let transitionsForObstacle2 = getRandomTransitionCount(); // Random number of transitions before obstacle2 appears
-    let obstacle2Active = false; // State to track if obstacle2 should be moving
+    moveObstacle(obstacle, 3);
 
     function moveObstacle(obstacle, speed) {
         const sandboxWidth = runnerContainer.offsetWidth;
-        let x = sandboxWidth; // Initial position off-screen
-
-        function animate() {
-            if (
-                obstacle === obstacle1 ||
-                (obstacle === obstacle2 && obstacle2Active)
-            ) {
-                x -= speed;
-            }
-
-            if (x < -obstacle.offsetWidth) {
-                x = sandboxWidth; // Reset position
-                if (obstacle === obstacle1) {
-                    countTransitions++;
-                    if (
-                        countTransitions >= transitionsForObstacle2 &&
-                        !obstacle2Active
-                    ) {
-                        obstacle2Active = true;
-                        setTimeout(() => {
-                            moveObstacle(obstacle2, 3); // Delayed start for obstacle2
-                        }, Math.random() * 6000); // Random delay in ms (0 to 6 seconds)
-                    }
-                } else if (obstacle === obstacle2) {
-                    obstacle2.style.display = "none"; // Hide obstacle2 after one transition
-                    obstacle2Active = false; // Deactivate obstacle2
-                    transitionsForObstacle2 = getRandomTransitionCount(); // Recalculate random transitions for next appearance
-                    countTransitions = 0; // Reset transition count
-                }
-            }
-
-            if (obstacle === obstacle2 && obstacle2Active) {
-                obstacle.style.display = "block"; // Ensure obstacle2 is visible when active
-                obstacle.style.transform = `translateX(${x}px)`;
-            } else if (obstacle === obstacle1) {
-                obstacle.style.transform = `translateX(${x}px)`;
-            }
-
-            requestAnimationFrame(animate);
-        }
+        let x = sandboxWidth;
 
         requestAnimationFrame(animate);
+
+        function animate() {
+            x -= speed;
+            if (x < -obstacle.offsetWidth) {
+                x = sandboxWidth;
+            }
+            obstacle.style.transform = `translateX(${x}px)`;
+
+            if (checkCollision(x)) {
+                handleCollision();
+            } else {
+                continueAnimation();
+            }
+        }
+
+        function handleCollision() {
+            if (hit) {
+                console.log("hit");
+                resetObstacle();
+            } else {
+                console.error("game over");
+            }
+        }
+
+        function continueAnimation() {
+            if (x !== sandboxWidth) {
+                requestAnimationFrame(animate);
+            } else {
+                setTimeout(() => {
+                    requestAnimationFrame(animate);
+                }, getRandomCount(3) * 1000);
+            }
+        }
+
+        function resetObstacle() {
+            x = sandboxWidth;
+            obstacle.style.transform = `translateX(${x}px)`;
+            setTimeout(() => {
+                requestAnimationFrame(animate);
+            }, getRandomCount(3) * 1000);
+            hit = false;
+        }
     }
 
-    function getRandomTransitionCount() {
-        return 0 + Math.floor(Math.random() * 6); // Random number from 5 to 10
+    function getRandomCount(num) {
+        return Math.floor(Math.random() * num);
     }
-
-    // Start moving obstacle1
-    moveObstacle(obstacle1, 3);
-
-    // if (!checkCollision(x)) {
-    //     requestAnimationFrame(animate);
-    // } else {
-    //     console.error("game over");
-    // }
 
     function checkCollision(obstacleLeft) {
-        let chickenTop = parseInt(
+        const chickenTop = parseInt(
             window.getComputedStyle(chicken).getPropertyValue("top")
         );
+        const isObstacleInRange = obstacleLeft < 160 && obstacleLeft > 50;
+        const isChickenInHitRange = chickenTop < 332 && chickenTop > 320;
+        const isChickenHit = chickenTop > 333;
 
-        return obstacleLeft < 160 && obstacleLeft > 50 && chickenTop >= 330;
+        if (!isObstacleInRange) {
+            return false;
+        }
+        if (isChickenInHitRange) {
+            hit = true;
+            return true;
+        } else if (isChickenHit) {
+            return true;
+        }
     }
 
     function handleJump(e) {

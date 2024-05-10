@@ -59,18 +59,10 @@
     }
 }
 
-#obstacle1 {
+#obstacle {
     width: 60px;
     height: 60px;
     position: relative;
     top: 330px;
     background: red;
-}
-
-#obstacle2 {
-    width: 60px;
-    height: 60px;
-    position: relative;
-    top: 270px;
-    background: pink;
 }
