@@ -23,10 +23,16 @@
     background: green;
 }
 
+.cactus,
+#color-bubble,
+#black-bubble,
 #chicken {
     width: 60px;
     height: 60px;
     position: relative;
+}
+
+#chicken {
     top: 390px;
     left: 100px;
 }
@@ -58,11 +64,34 @@
     }
 }
 
-#obstacle {
-    width: 60px;
-    height: 60px;
-    position: relative;
+#color-bubble {
     top: 330px;
+}
+
+#color-bubble::before {
+    content: "";
+    background-color: #82c6d7;
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    top: 5px;
+    left: 15px;
+    border-radius: 50%;
+}
+
+.wobble {
+    animation: wobble 1.5s linear infinite;
+}
+@keyframes wobble {
+    0% {
+        top: 330px;
+    }
+    50% {
+        top: 350px;
+    }
+    100% {
+        top: 330px;
+    }
 }
 
 .shrink {
@@ -101,7 +130,73 @@
     left: 26px;
 }
 
-.cat {
-    width: 60px;
-    height: 60px;
+.bubble {
+    position: relative;
+    z-index: 0;
+}
+
+#black-bubble {
+    top: 270px;
+}
+.breathe {
+    animation: breathe 1.5s linear infinite;
+}
+@keyframes breathe {
+    0% {
+        width: 60px;
+    }
+    50% {
+        width: 70px;
+    }
+    100% {
+        width: 60px;
+    }
+}
+
+.cactus {
+    top: 275px;
+}
+
+.pixels {
+    width: 1000px;
+    height: 50px;
+    position: relative;
+}
+
+.pixels > div {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+}
+
+.group-2 {
+    bottom: 50px;
+}
+
+.group-1 > div {
+    background: #338c23;
+}
+.group-2 > div {
+    background: #255444;
+}
+
+.pix1 {
+    top: 20px;
+    left: 100px;
+}
+.pix2 {
+    top: 10px;
+    left: 200px;
+}
+.pix3 {
+    top: 30px;
+    left: 400px;
+}
+.pix4 {
+    top: 40px;
+    left: 600px;
+}
+.pix5 {
+    top: 25px;
+    left: 800px;
 }

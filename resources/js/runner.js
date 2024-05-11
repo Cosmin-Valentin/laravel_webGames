@@ -2,17 +2,27 @@ const runnerContainer = document.querySelector(".runner-container");
 
 if (runnerContainer) {
     const chicken = document.getElementById("chicken");
-    const obstacle = document.getElementById("obstacle");
+    const colorBubble = document.getElementById("color-bubble");
+    // const blackBubble = document.getElementById("black-bubble");
+    const cactus = document.querySelector(".cactus");
+    const pixelsLight = document.querySelector(".pixels.group-1");
+    const pixelsDark = document.querySelector(".pixels.group-2");
     let hit = false;
+    let animationIds = [];
 
     document.addEventListener("keydown", handleJump);
-    moveObstacle(obstacle, 3);
+    moveObstacle(colorBubble, 3);
+    setTimeout(function () {
+        moveObstacle(cactus, 3);
+    }, 500);
+
+    moveGround();
 
     function moveObstacle(obstacle, speed) {
         const sandboxWidth = runnerContainer.offsetWidth;
         let x = sandboxWidth;
 
-        requestAnimationFrame(animate);
+        animationIds.push(requestAnimationFrame(animate));
 
         function animate() {
             x -= speed;
@@ -21,7 +31,7 @@ if (runnerContainer) {
             }
             obstacle.style.transform = `translateX(${x}px)`;
 
-            if (checkCollision(x)) {
+            if (obstacle.classList.contains("obstacle") && checkCollision(x)) {
                 handleCollision();
             } else {
                 continueAnimation();
@@ -29,22 +39,27 @@ if (runnerContainer) {
         }
 
         function handleCollision() {
-            if (hit) {
-                obstacle.classList.add("shrink");
-                setTimeout(function () {
-                    resetObstacle();
-                }, 200);
+            if (!obstacle.classList.contains("cactus")) {
+                if (hit) {
+                    obstacle.classList.remove("wobble");
+                    obstacle.classList.add("shrink");
+                    setTimeout(function () {
+                        resetObstacle();
+                    }, 200);
+                } else {
+                    gameOver();
+                }
             } else {
-                console.error("game over");
+                gameOver();
             }
         }
 
         function continueAnimation() {
             if (x !== sandboxWidth) {
-                requestAnimationFrame(animate);
+                animationIds.push(requestAnimationFrame(animate));
             } else {
                 setTimeout(() => {
-                    requestAnimationFrame(animate);
+                    animationIds.push(requestAnimationFrame(animate));
                 }, getRandomCount(3) * 1000);
             }
         }
@@ -53,11 +68,25 @@ if (runnerContainer) {
             x = sandboxWidth;
             obstacle.style.transform = `translateX(${x}px)`;
             obstacle.classList.remove("shrink");
+            obstacle.classList.add("wobble");
             setTimeout(() => {
-                requestAnimationFrame(animate);
+                animationIds.push(requestAnimationFrame(animate));
             }, getRandomCount(3) * 1000);
             hit = false;
         }
+    }
+
+    function moveGround() {
+        moveObstacle(pixelsLight, 3);
+        setTimeout(function () {
+            moveObstacle(pixelsDark, 3);
+        }, 2000);
+    }
+
+    function gameOver() {
+        console.error("game over");
+        animationIds.forEach((id) => cancelAnimationFrame(id));
+        animationIds = [];
     }
 
     function getRandomCount(num) {
