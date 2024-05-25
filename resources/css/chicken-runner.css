@@ -51,7 +51,7 @@
     animation: rightLeg 0.5s infinite linear;
 }
 #chicken.walk .leg.left {
-    animation: leeftLeg 0.5s infinite linear;
+    animation: leftLeg 0.5s infinite linear;
 }
 @keyframes rightLeg {
     0% {
@@ -61,7 +61,7 @@
         transform: rotate(50deg);
     }
 }
-@keyframes leeftLeg {
+@keyframes leftLeg {
     0% {
         transform: rotate(-50deg);
     }

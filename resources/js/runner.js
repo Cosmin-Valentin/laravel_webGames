@@ -3,26 +3,37 @@ const runnerContainer = document.querySelector(".runner-container");
 if (runnerContainer) {
     const chicken = document.getElementById("chicken");
     const colorBubble = document.getElementById("color-bubble");
-    // const blackBubble = document.getElementById("black-bubble");
+    const blackBubble = document.getElementById("black-bubble");
     const cactus = document.querySelector(".cactus");
     const pixelsLight = document.querySelector(".pixels.group-1");
     const pixelsDark = document.querySelector(".pixels.group-2");
+    const skies = document.querySelectorAll(".sky");
+    const prompt = document.getElementById("prompt");
+    const legend = document.querySelector(".legend");
     let hit = false;
-    let animationIds = [];
+    let counter = 0;
+    let circadianInterval;
+    let avoidObs = false;
+    let blackEnabled = false;
 
-    document.addEventListener("keydown", handleJump);
-    moveObstacle(colorBubble, 3);
-    setTimeout(function () {
-        moveObstacle(cactus, 3);
-    }, 500);
+    giveInfo();
 
-    moveGround();
+    function init() {
+        activateElements(3);
+        circadianInterval = setupCircadianShift();
+        displayLegend();
+        document.addEventListener("keydown", handleAction);
+    }
 
     function moveObstacle(obstacle, speed) {
         const sandboxWidth = runnerContainer.offsetWidth;
         let x = sandboxWidth;
 
-        animationIds.push(requestAnimationFrame(animate));
+        if (obstacle.classList.contains("hidden")) {
+            obstacle.classList.remove("hidden");
+        }
+
+        requestAnimationFrame(animate);
 
         function animate() {
             x -= speed;
@@ -31,7 +42,10 @@ if (runnerContainer) {
             }
             obstacle.style.transform = `translateX(${x}px)`;
 
-            if (obstacle.classList.contains("obstacle") && checkCollision(x)) {
+            if (
+                obstacle.classList.contains("obstacle") &&
+                checkCollision(x, obstacle)
+            ) {
                 handleCollision();
             } else {
                 continueAnimation();
@@ -41,6 +55,7 @@ if (runnerContainer) {
         function handleCollision() {
             if (!obstacle.classList.contains("cactus")) {
                 if (hit) {
+                    counter = counter + 5;
                     obstacle.classList.remove("wobble");
                     obstacle.classList.add("shrink");
                     setTimeout(function () {
@@ -56,10 +71,10 @@ if (runnerContainer) {
 
         function continueAnimation() {
             if (x !== sandboxWidth) {
-                animationIds.push(requestAnimationFrame(animate));
+                requestAnimationFrame(animate);
             } else {
                 setTimeout(() => {
-                    animationIds.push(requestAnimationFrame(animate));
+                    requestAnimationFrame(animate);
                 }, getRandomCount(3) * 1000);
             }
         }
@@ -70,60 +85,157 @@ if (runnerContainer) {
             obstacle.classList.remove("shrink");
             obstacle.classList.add("wobble");
             setTimeout(() => {
-                animationIds.push(requestAnimationFrame(animate));
+                requestAnimationFrame(animate);
             }, getRandomCount(3) * 1000);
             hit = false;
         }
     }
 
-    function moveGround() {
-        moveObstacle(pixelsLight, 3);
+    function moveGround(speed) {
+        moveObstacle(pixelsLight, speed);
         setTimeout(function () {
-            moveObstacle(pixelsDark, 3);
+            moveObstacle(pixelsDark, speed);
         }, 2000);
     }
 
     function gameOver() {
-        console.error("game over");
-        animationIds.forEach((id) => cancelAnimationFrame(id));
-        animationIds = [];
+        runnerContainer.classList.add("over");
+        prompt.classList.remove("hidden");
+        prompt.classList.add("flex");
+        clearInterval(circadianInterval);
+        document.removeEventListener("keydown", handleAction);
+        document.addEventListener("keydown", () => location.reload());
     }
 
     function getRandomCount(num) {
         return Math.floor(Math.random() * num);
     }
 
-    function checkCollision(obstacleLeft) {
+    function checkCollision(obstacleLeft, obstacle) {
         const chickenTop = parseInt(
             window.getComputedStyle(chicken).getPropertyValue("top")
         );
         const isObstacleInRange = obstacleLeft < 160 && obstacleLeft > 50;
-        const isChickenInHitRange = chickenTop < 332 && chickenTop > 320;
+        const isChickenSqashing = chickenTop < 332 && chickenTop > 320;
         const isChickenHit = chickenTop > 333;
+        const hasChickenCrouched = chickenTop > 390;
 
         if (!isObstacleInRange) {
             return false;
         }
-        if (isChickenInHitRange) {
+
+        if (obstacle === blackBubble) {
+            if (!hasChickenCrouched) {
+                return true;
+            } else {
+                avoidObs = true;
+                return false;
+            }
+        }
+
+        if (isChickenSqashing) {
             hit = true;
+            avoidObs = false;
             return true;
         } else if (isChickenHit) {
+            avoidObs = false;
             return true;
+        } else {
+            avoidObs = true;
         }
     }
 
-    function handleJump(e) {
-        if (e.key === "ArrowUp") {
-            if (!chicken.classList.contains("jump")) {
-                chicken.classList.add("jump");
-            }
-            setTimeout(function () {
-                chicken.classList.remove("jump");
-            }, 500);
+    function handleAction(e) {
+        const actions = {
+            ArrowUp: () => performAction("jump"),
+            ArrowDown: () => performAction("crouch"),
+        };
+
+        if (actions[e.key]) {
+            actions[e.key]();
         }
+    }
+
+    function performAction(actionName) {
+        if (!chicken.classList.contains(actionName)) {
+            chicken.classList.remove("walk");
+            chicken.classList.add(actionName);
+        }
+
+        setTimeout(function () {
+            chicken.classList.remove(actionName);
+            if (avoidObs) {
+                counter++;
+                avoidObs = false;
+            }
+            document.querySelector(".score b").textContent = counter;
+            chicken.classList.add("walk");
+            if (counter >= 50 && !blackEnabled) {
+                blackEnabled = true;
+                enableBackBubble();
+            }
+        }, 500);
     }
 
     function randomDelay() {
         return Math.random * 10000;
+    }
+
+    function setupCircadianShift() {
+        let x = 1;
+        return setInterval(function () {
+            skies.forEach((el) => el.classList.remove("active"));
+            skies[x].classList.add("active");
+            x = x < skies.length - 1 ? x + 1 : 0;
+        }, 15000);
+    }
+
+    function giveInfo() {
+        document.addEventListener("keydown", startGame);
+    }
+
+    function startGame(e) {
+        const actionMap = {
+            ArrowUp: "jump",
+            ArrowDown: "crouch",
+        };
+
+        if (actionMap[e.key]) {
+            performAction(actionMap[e.key]);
+            document.removeEventListener("keydown", startGame);
+            document.querySelector(".info").classList.add("hidden");
+            init();
+        }
+    }
+
+    function activateElements(speed) {
+        if (!blackEnabled) {
+            moveObstacle(colorBubble, speed);
+            setTimeout(function () {
+                moveObstacle(cactus, speed);
+            }, 5000);
+            moveGround(speed);
+        } else {
+            moveObstacle(blackBubble, speed);
+        }
+    }
+
+    function enableBackBubble() {
+        legend.textContent = "Watch your head and CROUCH DOWN!";
+        displayLegend();
+        setTimeout(function () {
+            activateElements(3);
+        }, 5000);
+    }
+
+    function displayLegend() {
+        setTimeout(function () {
+            legend.classList.remove("hidden");
+        }, 5000);
+        setTimeout(function () {
+            if (!legend.classList.contains("hidden")) {
+                legend.classList.add("hidden");
+            }
+        }, 15000);
     }
 }
